@@ -1,5 +1,7 @@
 "use client";
 
+"use memo";
+
 import * as React from "react";
 import {
   Bar,
@@ -7,14 +9,11 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  LabelList,
 } from "recharts";
-
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/Chart";
 
 const chartConfig = {
@@ -37,40 +36,38 @@ interface ParticipantBarChartProps {
 }
 
 export function ParticipantBarChart({ stats }: ParticipantBarChartProps) {
-  const chartData = React.useMemo(() => {
-    return [
-      {
-        type: "team",
-        label: "팀미팅",
-        visitors: stats.team || 0,
-        fill: "var(--color-team)",
-      },
-      {
-        type: "study",
-        label: "스터디",
-        visitors: stats.study || 0,
-        fill: "var(--color-study)",
-      },
-      {
-        type: "project",
-        label: "프로젝트",
-        visitors: stats.project || 0,
-        fill: "var(--color-project)",
-      },
-      {
-        type: "jobPrep",
-        label: "취준생",
-        visitors: stats.jobPrep || 0,
-        fill: "var(--color-jobPrep)",
-      },
-      {
-        type: "etc",
-        label: "기타",
-        visitors: stats.etc || 0,
-        fill: "var(--color-etc)",
-      },
-    ];
-  }, [stats]);
+  const chartData = [
+    {
+      type: "team",
+      label: "팀미팅",
+      visitors: stats.team || 0,
+      fill: "var(--color-team)",
+    },
+    {
+      type: "study",
+      label: "스터디",
+      visitors: stats.study || 0,
+      fill: "var(--color-study)",
+    },
+    {
+      type: "project",
+      label: "프로젝트",
+      visitors: stats.project || 0,
+      fill: "var(--color-project)",
+    },
+    {
+      type: "jobPrep",
+      label: "취준생",
+      visitors: stats.jobPrep || 0,
+      fill: "var(--color-jobPrep)",
+    },
+    {
+      type: "etc",
+      label: "기타",
+      visitors: stats.etc || 0,
+      fill: "var(--color-etc)",
+    },
+  ];
 
   return (
     <ChartContainer config={chartConfig} className="h-full w-full">
@@ -79,10 +76,8 @@ export function ParticipantBarChart({ stats }: ParticipantBarChartProps) {
         margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
       >
         <CartesianGrid horizontal={false} vertical={false} />
-
         <XAxis hide />
         <YAxis hide />
-
         <ChartTooltip
           cursor={{ fill: "rgba(241, 245, 249, 0.6)", radius: 4 }}
           content={({ active, payload }) => {
@@ -109,7 +104,6 @@ export function ParticipantBarChart({ stats }: ParticipantBarChartProps) {
             return null;
           }}
         />
-
         <Bar dataKey="visitors" radius={[4, 4, 4, 4]} barSize={18}></Bar>
       </BarChart>
     </ChartContainer>
