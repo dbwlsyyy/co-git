@@ -9,6 +9,7 @@ import { NoResultFound } from "@/components/features/feedback/NoResultFound";
 import InfiniteScrollTrigger from "@/components/ui/InfiniteScrollTrigger";
 import { usePostList } from "@/hooks/queries/usePostList";
 import { LoungeSortBy, Post, SortOrder } from "@/types";
+import SecurityTest from "@/app/lounge/_components/SecurityTest";
 
 export default function PostList() {
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function PostList() {
       )}
     >
       <div className="flex flex-col">
+        <SecurityTest />
         {postList.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:gap-6">
             {postList.map((post: Post) => (

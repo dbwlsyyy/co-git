@@ -42,6 +42,27 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        {/* Next.js 스크립트 로더가 켜지기 전에 브라우저 엔진에 default 정책을 먼저 주입 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined' && window.trustedTypes) {
+                if (!window.trustedTypes.getAttributeType('default', 'ScriptURL')) {
+                  window.trustedTypes.createPolicy('default', {
+                    // Next.js 내부에서 js 파일들을 동적으로 불러오는 script src 주소들을 허용
+                    createScriptURL: (string) => string,
+                    
+                    // createHTML은 일부러 정의하지 않습니다
+                    // 그래야 우리가 만든 [악성 스크립트 쏴보기] 버튼을 눌렀을 때 
+                    // 우리가 원하는 'TrustedHTML' assignment 에러가 정상적으로 유발됩니다.
+                  });
+                }
+              }
+            `,
+          }}
+        />
+      </head>
       <body
         className="bg-background text-foreground font-pretendard antialiased"
         suppressHydrationWarning

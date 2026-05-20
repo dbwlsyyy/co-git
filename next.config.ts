@@ -30,6 +30,23 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    if (process.env.NODE_ENV !== "production") {
+      return [];
+    }
+
+    return [
+      {
+        source: "/(.*)", // 프로젝트 내의 모든 경로에 적용
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "require-trusted-types-for 'script';",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

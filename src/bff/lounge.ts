@@ -24,7 +24,7 @@ export async function getLoungePostsPageBFF(
   const size = Math.min(rawSize ?? DEFAULT_SIZE, MAX_SIZE);
   const collected: Post[] = [];
   let currentCursor = initialCursor;
-  let lastHasMore = false;
+  let isLastHasMore = false;
   let lastNextCursor: string | null = null;
 
   while (collected.length < size) {
@@ -41,7 +41,7 @@ export async function getLoungePostsPageBFF(
 
     collected.push(...response.data);
 
-    lastHasMore = response.hasMore;
+    isLastHasMore = response.hasMore;
     lastNextCursor = response.nextCursor;
 
     if (!response.hasMore || !response.nextCursor) break;
@@ -51,7 +51,7 @@ export async function getLoungePostsPageBFF(
 
   return {
     data: collected,
-    hasMore: lastHasMore,
+    hasMore: isLastHasMore,
     nextCursor: lastNextCursor,
   };
 }
